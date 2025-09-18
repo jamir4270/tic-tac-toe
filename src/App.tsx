@@ -8,6 +8,7 @@ function App() {
   const [moveCount, setMoveCount] = useState(0);
   const [verdict, setVerdict] = useState("");
   const [isGameFinished, setIsGameFinished] = useState(false);
+  const [history, setHistory] = useState(Array(9).fill(-1));
 
   function restartGame() {
     setIsGameFinished(false);
@@ -17,6 +18,7 @@ function App() {
     });
     setVerdict("");
     setMoveCount(0);
+    setHistory(Array(9).fill(-1));
   }
 
   function handleBoardChange(tilePos: number) {
@@ -31,15 +33,20 @@ function App() {
     const newBoard = [...tile];
     newBoard[tilePos] = currentPlayer;
 
+    const newHistory = [...history];
+    newHistory[moveCount] = tilePos;
+
     const verdictResult = GameVerdict(newBoard, newMoveCount);
 
     setTile(newBoard);
     setMoveCount(newMoveCount);
+    setHistory(newHistory);
 
     console.log(verdictResult.gameDone);
     console.log(verdictResult.winner);
     console.log(moveCount);
     console.log(newBoard);
+    console.log(newHistory);
 
     if (verdictResult.gameDone) {
       setIsGameFinished(true);
@@ -54,7 +61,9 @@ function App() {
     <>
       <div className="header">
         <h1>Tic Tac Toe</h1>
-        <p>Play Now!</p>
+      </div>
+      <div className="verdict">
+        <h3>{isGameFinished ? verdict : ``}</h3>
       </div>
       <div className="main">
         <div className="game">
@@ -105,17 +114,22 @@ function App() {
         </div>
         <div className="game-info">
           <div className="move-history">
-            <h3>Moves</h3>
-            <p>placeholder move</p>
-          </div>
-          <div className="verdict">
-            <h3>{isGameFinished ? verdict : ``}</h3>
+            <h2>Moves</h2>
+            {history
+              .filter((value) => value !== -1)
+              .map((value, index) => (
+                <p key={index}>{`Player ${
+                  index % 2 === 0 ? "1" : "2"
+                } at Cell ${value}`}</p>
+              ))}
           </div>
         </div>
       </div>
-      <button className="reset-button" onClick={restartGame}>
-        Play Again
-      </button>
+      {isGameFinished && (
+        <button className="reset-button" onClick={restartGame}>
+          Play Again
+        </button>
+      )}
     </>
   );
 }
