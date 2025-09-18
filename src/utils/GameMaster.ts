@@ -56,8 +56,8 @@ export default function GameVerdict(
   } else {
     verdict.gameDone = currentNumOfMoves === 9 ? true : false;
   }
-
+  
   verdict.winner =
-    currentNumOfMoves < 9 ? (symbol === "X" ? "Player 2" : "Player 1") : "";
+    currentNumOfMoves < 9 ? (symbol === "X" ? "Player 1" : "Player 2") : "";
   return verdict;
 }
