@@ -9,6 +9,16 @@ function App() {
   const [verdict, setVerdict] = useState("");
   const [isGameFinished, setIsGameFinished] = useState(false);
 
+  function restartGame() {
+    setIsGameFinished(false);
+    setTile(() => {
+      const board = Array(9).fill("");
+      return board;
+    });
+    setVerdict("");
+    setMoveCount(0);
+  }
+
   function handleBoardChange(tilePos: number) {
     if (tile[tilePos] !== "" || isGameFinished) {
       return;
@@ -40,35 +50,6 @@ function App() {
       }
     }
   }
-  /*function handleBoardChange(tilePos: number) {
-    if (tile[tilePos] === "") {
-      setTile((prevTile) => {
-        const newTile = prevTile;
-        newTile[tilePos] = moveCount % 2 ? "X" : "O";
-        return newTile;
-      });
-      setMoveCount((moveCount) => moveCount + 1);
-      console.log(GameVerdict(tile, moveCount).gameDone);
-      console.log(moveCount);
-      console.log(tile);
-    }
-    if (GameVerdict(tile, moveCount).gameDone) {
-      setIsGameFinished((prevIsGameFinished) => {
-        let newGameIsFinished = prevIsGameFinished;
-        newGameIsFinished = true;
-        return newGameIsFinished;
-      });
-      setVerdict((prevVerdict) => {
-        let newVerdict = prevVerdict;
-        if (GameVerdict(tile, moveCount).winner === "") {
-          newVerdict = `The match is a draw`;
-        } else {
-          newVerdict = `${GameVerdict(tile, moveCount).winner} won!!`;
-        }
-        return newVerdict;
-      });
-    }
-  }*/
   return (
     <>
       <div className="header">
@@ -132,7 +113,9 @@ function App() {
           </div>
         </div>
       </div>
-      <button className="reset-button">Play Again</button>
+      <button className="reset-button" onClick={restartGame}>
+        Play Again
+      </button>
     </>
   );
 }
