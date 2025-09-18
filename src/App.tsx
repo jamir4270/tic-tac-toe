@@ -2,7 +2,6 @@ import "./App.css";
 import Board from "./components/Board";
 
 function App() {
-  const tileSymbol = ["", "", "", "", "", "", "", "", ""];
   return (
     <>
       <div className="header">
@@ -12,7 +11,7 @@ function App() {
       <div className="main">
         <div className="game">
           <div className="board">
-            <Board tileSymbol={tileSymbol}></Board>
+            <Board></Board>
           </div>
         </div>
         <div className="game-info">
