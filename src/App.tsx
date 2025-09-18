@@ -1,8 +1,74 @@
+import { useState } from "react";
 import "./App.css";
-import Board from "./components/Board";
+import Tile from "./components/Tile";
+import GameVerdict from "./utils/GameMaster";
 
 function App() {
-  const tileSymbol = ["", "", "", "", "", "", "", "", ""];
+  const [tile, setTile] = useState(["", "", "", "", "", "", "", "", ""]);
+  const [moveCount, setMoveCount] = useState(0);
+  const [verdict, setVerdict] = useState("");
+  const [isGameFinished, setIsGameFinished] = useState(false);
+
+  function handleBoardChange(tilePos: number) {
+    if (tile[tilePos] !== "" || isGameFinished) {
+      return;
+    }
+
+    const newMoveCount = moveCount + 1;
+
+    const currentPlayer = newMoveCount % 2 ? "X" : "O";
+
+    const newBoard = [...tile];
+    newBoard[tilePos] = currentPlayer;
+
+    const verdictResult = GameVerdict(newBoard, newMoveCount);
+
+    setTile(newBoard);
+    setMoveCount(newMoveCount);
+
+    console.log(verdictResult.gameDone);
+    console.log(verdictResult.winner);
+    console.log(moveCount);
+    console.log(newBoard);
+
+    if (verdictResult.gameDone) {
+      setIsGameFinished(true);
+      if (verdictResult.winner === "") {
+        setVerdict("The match is a  draw");
+      } else {
+        setVerdict(`${verdictResult.winner} is the winner!!`);
+      }
+    }
+  }
+  /*function handleBoardChange(tilePos: number) {
+    if (tile[tilePos] === "") {
+      setTile((prevTile) => {
+        const newTile = prevTile;
+        newTile[tilePos] = moveCount % 2 ? "X" : "O";
+        return newTile;
+      });
+      setMoveCount((moveCount) => moveCount + 1);
+      console.log(GameVerdict(tile, moveCount).gameDone);
+      console.log(moveCount);
+      console.log(tile);
+    }
+    if (GameVerdict(tile, moveCount).gameDone) {
+      setIsGameFinished((prevIsGameFinished) => {
+        let newGameIsFinished = prevIsGameFinished;
+        newGameIsFinished = true;
+        return newGameIsFinished;
+      });
+      setVerdict((prevVerdict) => {
+        let newVerdict = prevVerdict;
+        if (GameVerdict(tile, moveCount).winner === "") {
+          newVerdict = `The match is a draw`;
+        } else {
+          newVerdict = `${GameVerdict(tile, moveCount).winner} won!!`;
+        }
+        return newVerdict;
+      });
+    }
+  }*/
   return (
     <>
       <div className="header">
@@ -12,7 +78,48 @@ function App() {
       <div className="main">
         <div className="game">
           <div className="board">
-            <Board tileSymbol={tileSymbol}></Board>
+            <div className="row">
+              <Tile
+                symbol={tile[0]}
+                onTileClick={() => handleBoardChange(0)}
+              ></Tile>
+              <Tile
+                symbol={tile[1]}
+                onTileClick={() => handleBoardChange(1)}
+              ></Tile>
+              <Tile
+                symbol={tile[2]}
+                onTileClick={() => handleBoardChange(2)}
+              ></Tile>
+            </div>
+            <div className="row">
+              <Tile
+                symbol={tile[3]}
+                onTileClick={() => handleBoardChange(3)}
+              ></Tile>
+              <Tile
+                symbol={tile[4]}
+                onTileClick={() => handleBoardChange(4)}
+              ></Tile>
+              <Tile
+                symbol={tile[5]}
+                onTileClick={() => handleBoardChange(5)}
+              ></Tile>
+            </div>
+            <div className="row">
+              <Tile
+                symbol={tile[6]}
+                onTileClick={() => handleBoardChange(6)}
+              ></Tile>
+              <Tile
+                symbol={tile[7]}
+                onTileClick={() => handleBoardChange(7)}
+              ></Tile>
+              <Tile
+                symbol={tile[8]}
+                onTileClick={() => handleBoardChange(8)}
+              ></Tile>
+            </div>
           </div>
         </div>
         <div className="game-info">
@@ -21,7 +128,7 @@ function App() {
             <p>placeholder move</p>
           </div>
           <div className="verdict">
-            <p>Player 1 Wins!</p>
+            <h3>{isGameFinished ? verdict : ``}</h3>
           </div>
         </div>
       </div>
