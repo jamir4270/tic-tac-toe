@@ -61,7 +61,9 @@ function App() {
     <>
       <div className="header">
         <h1>Tic Tac Toe</h1>
-        <p>Play Now!</p>
+      </div>
+      <div className="verdict">
+        <h3>{isGameFinished ? verdict : ``}</h3>
       </div>
       <div className="main">
         <div className="game">
@@ -112,7 +114,7 @@ function App() {
         </div>
         <div className="game-info">
           <div className="move-history">
-            <h3>Moves</h3>
+            <h2>Moves</h2>
             {history
               .filter((value) => value !== -1)
               .map((value, index) => (
@@ -121,14 +123,13 @@ function App() {
                 } at Cell ${value}`}</p>
               ))}
           </div>
-          <div className="verdict">
-            <h3>{isGameFinished ? verdict : ``}</h3>
-          </div>
         </div>
       </div>
-      <button className="reset-button" onClick={restartGame}>
-        Play Again
-      </button>
+      {isGameFinished && (
+        <button className="reset-button" onClick={restartGame}>
+          Play Again
+        </button>
+      )}
     </>
   );
 }
