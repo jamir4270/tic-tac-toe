@@ -13,9 +13,8 @@
 
 .board {
   background-color: white;
-  width: 400px;
-  height: 400px;
   margin-bottom: 10px;
+  padding: 10px;
 }
 
 .game-info {
@@ -24,7 +23,7 @@
   gap: 10px;
   background-color: aliceblue;
   width: 350px;
-  height: 400px;
+  height: inherit;
 }
 
 .move-history {
