@@ -6,6 +6,7 @@ type BoardProps = {
 };
 
 export default function Board({ tileSymbol }: BoardProps) {
+
   return (
     <div className="board">
       <div className="row">
